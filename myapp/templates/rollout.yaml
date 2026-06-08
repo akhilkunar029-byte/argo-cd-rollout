@@ -1,0 +1,38 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: myapp
+spec:
+  replicas: 3
+
+  strategy:
+    blueGreen:
+      activeService: flask-app-active
+      previewService: flask-app-preview
+      autoPromotionEnabled: true  
+      #autoPromotionSeconds: 30
+      #previewReplicaCount: 2
+      postPromotionAnalysis:
+        templates:
+        - templateName: myapp-analysis
+
+  selector:
+    matchLabels:
+      app: myapp
+
+  template:
+    metadata:
+      labels:
+        app: myapp
+    spec:
+      containers:
+      - name: flask-app
+        image: akhil2929/myapp:02
+        imagePullPolicy: Always
+        env:
+        - name: HTML_TEMPLATE
+          value: index.html
+        ports:
+        - containerPort: 5000
+
+# maintenance.html  index.html

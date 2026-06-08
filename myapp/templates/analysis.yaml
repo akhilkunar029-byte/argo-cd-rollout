@@ -1,0 +1,22 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AnalysisTemplate
+metadata:
+  name: myapp-analysis
+spec:
+  metrics:
+  - name: myapp-analysis
+    provider:
+      job:
+        spec:
+          backoffLimit: 0
+          template:
+            spec:
+              restartPolicy: Never
+              containers:
+              - name: my-app-analysis
+                image: curlimages/curl:latest
+                command:
+                - sh
+                - -c
+                - |
+                  exit 0
