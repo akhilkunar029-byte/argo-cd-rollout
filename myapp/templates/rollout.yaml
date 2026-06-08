@@ -31,7 +31,7 @@ spec:
         imagePullPolicy: Always
         env:
         - name: HTML_TEMPLATE
-          value: maintenance.html
+          value: index.html
         ports:
         - containerPort: 5000
 
